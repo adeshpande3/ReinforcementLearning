@@ -6,3 +6,25 @@ import numpy as np
 
 # +10 reward at the ends, 0 reward everywhere else
 path = np.array([10,0,0,0,0,0,0,0,0,10])
+startingIndex = 4
+
+# GLOBAL VARIABLES
+curState 
+curReward = 0
+weightVector
+
+def actionValueFunction():
+	
+
+def takeStep():
+	probability = np.random.rand()
+	if (probability >= .5):
+		currentLoc++;
+	else:
+		currentLoc--;
+
+while ():
+	takeStep()
+	if (currentLoc == 9 or currentLoc == 0):
+		curReward += 10
+
