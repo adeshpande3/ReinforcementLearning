@@ -11,30 +11,32 @@ path = np.array([0,0,0,0,0,0,0,0,0,1])
 
 class Agent:
 	def __init__(self):
-		self.valueFunction = np.array([0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5])
+		self.valueFunction = np.array([0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]) #Value function at every position is the same, initially
 		self.curLoc = 4 #Starting index is at the middle
 		self.alphaRate = .0001
 
+		# V(s) = V(s) + alpha*(R(t+1) + V(s+1) - V(s))
 	def simulateEpisode(self):
 		while True:
 			probability = np.random.rand()
-			if (probability >= .5):
+			if (probability >= .5): # Go Right
 				self.curLoc += 1;
 				if (self.curLoc == 9):
-					self.valueFunction[self.curLoc-1] += self.alphaRate*(1)
+					self.valueFunction[self.curLoc-1] += self.alphaRate*(1 + self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc-1])
 					return
 				else:
 					self.valueFunction[self.curLoc-1] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc-1])
 					
-			else:
+			else: # Go Left
 				self.curLoc -= 1;
 				if (self.curLoc == 0):
+					self.valueFunction[self.curLoc+1] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1])
 					return
 				else:
 					self.valueFunction[self.curLoc+1] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1])
 
 
-numEpisodes = 100000
+numEpisodes = 10000
 my_agent = Agent()
 for i in range(1,numEpisodes):
 	my_agent.simulateEpisode()
