@@ -7,13 +7,15 @@ import numpy as np
 
 # +1 reward at the right, 0 reward everywhere else
 # If agent reaches either end, the episode terminates
-path = np.array([0,0,0,0,0,0,0,0,0,1])
+
+# Got the practice problem from here: http://i.stack.imgur.com/JHdT2.png
+path = np.array([0,0,0,0,0,0,1])
 
 class Agent:
 	def __init__(self):
-		self.valueFunction = np.array([0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]) #Value function at every position is the same, initially
-		self.curLoc = 4 #Starting index is at the middle
-		self.alphaRate = .0001
+		self.valueFunction = np.array([0.5,0.5,0.5,0.5,0.5,0.5,0.5]) #Value function at every position is the same, initially
+		self.curLoc = 3 #Starting index is at the middle
+		self.alphaRate = .1
 
 		# V(s) = V(s) + alpha*(R(t+1) + V(s+1) - V(s))
 	def simulateEpisode(self):
@@ -21,7 +23,8 @@ class Agent:
 			probability = np.random.rand()
 			if (probability >= .5): # Go Right
 				self.curLoc += 1;
-				if (self.curLoc == 9):
+				if (self.curLoc == 6):
+					# You get a +1 reward if you reach the rightmost space
 					self.valueFunction[self.curLoc-1] += self.alphaRate*(1 + self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc-1])
 					return
 				else:
@@ -30,18 +33,22 @@ class Agent:
 			else: # Go Left
 				self.curLoc -= 1;
 				if (self.curLoc == 0):
-					self.valueFunction[self.curLoc+1] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1])
+					# You don't get any reward if you reach the leftmost space
+					self.valueFunction[self.curLoc+1] += self.alphaRate*(-self.valueFunction[self.curLoc+1])
 					return
 				else:
 					self.valueFunction[self.curLoc+1] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1])
 
 
-numEpisodes = 10000
+numEpisodes = 100
 my_agent = Agent()
 for i in range(1,numEpisodes):
 	my_agent.simulateEpisode()
-	my_agent.curLoc = 4
+	my_agent.curLoc = 3
 
-print "The value function is ", my_agent.valueFunction[1:9]
+print "The value function is ", my_agent.valueFunction[1:6]
+v_function = my_agent.valueFunction[1:6]
+v_function = v_function/sum(v_function)
+print "The value function is ", v_function
 
 
