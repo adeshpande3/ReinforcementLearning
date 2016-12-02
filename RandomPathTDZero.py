@@ -49,6 +49,5 @@ for i in range(1,numEpisodes):
 print "The value function is ", my_agent.valueFunction[1:6]
 v_function = my_agent.valueFunction[1:6]
 v_function = v_function/sum(v_function)
-print "The value function is ", v_function
 
 
