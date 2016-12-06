@@ -51,7 +51,7 @@ class Agent:
 					return
 				else:
 					self.updateQFunction(self.curLoc, action, 0, 1)
-					#self.QFunction[self.curLoc+1, action] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1])
+					#self.QFunction[self.curLoc+1, action] += self.alphaRate*(self.valueFunction[self.curLoc] - self.valueFunction[self.curLoc+1]
 
 
 	def updateQFunction(self, location, action, reward, direction):
